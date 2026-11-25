@@ -31,6 +31,7 @@ jobs:
         run: |
           womm --version
           womm why
-          echo n | womm ship nonet || true
+          ! (echo n | womm ship nonet)
           echo y | womm ship nonet
-          ls "$(brew --prefix womm)/libexec/bin"
+          test -e "$(brew --prefix womm)/libexec/bin/womm-packages/nonet/manifest.toml"
+          womm ask will this work on my machine

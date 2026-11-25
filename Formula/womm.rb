@@ -1,8 +1,8 @@
 class Womm < Formula
   desc "Enterprise-grade declarative executable synthesis (works on my machine)"
   homepage "https://github.com/turtle170/WorksOnMyMachine"
-  url "https://github.com/turtle170/WorksOnMyMachine/archive/refs/tags/v0.2.0.tar.gz"
-  sha256 "a353f10837da7bd13c53374a85b9ccf6cc8e873d966d1fa57a04c86c4085f5af"
+  url "https://github.com/turtle170/WorksOnMyMachine/archive/refs/tags/v0.2.1.tar.gz"
+  sha256 "558ec8c21a25956fc44d792a45c25729ed14ec80226657dd5d8124c7a26b01c3"
   license "MIT"
   head "https://github.com/turtle170/WorksOnMyMachine.git", branch: "main"
 
