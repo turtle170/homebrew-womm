@@ -1,0 +1,31 @@
+name: Test formula
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: brew install womm (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, macos-15-intel]
+    steps:
+      - name: Tap this checkout
+        run: |
+          brew tap turtle170/womm "https://github.com/${GITHUB_REPOSITORY}"
+          cd "$(brew --repo turtle170/womm)"
+          git fetch -q origin "$GITHUB_SHA" && git checkout -q "$GITHUB_SHA"
+      - name: Audit
+        run: brew audit --strict turtle170/womm/womm
+      - name: Build from source
+        run: brew install --build-from-source --verbose turtle170/womm/womm
+      - name: Test
+        run: brew test --verbose turtle170/womm/womm
+      - name: It works on this machine
+        run: |
+          womm --version
+          womm why
