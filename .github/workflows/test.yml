@@ -19,6 +19,8 @@ jobs:
           brew tap turtle170/womm "https://github.com/${GITHUB_REPOSITORY}"
           cd "$(brew --repo turtle170/womm)"
           git fetch -q origin "$GITHUB_SHA" && git checkout -q "$GITHUB_SHA"
+          # Homebrew 7 refuses third-party taps until you trust them (older brews have no such command).
+          if brew commands | grep -qx trust; then brew trust turtle170/womm; fi
       - name: Audit
         run: brew audit --strict turtle170/womm/womm
       - name: Build from source
@@ -29,3 +31,6 @@ jobs:
         run: |
           womm --version
           womm why
+          echo n | womm ship nonet || true
+          echo y | womm ship nonet
+          ls "$(brew --prefix womm)/libexec/bin"

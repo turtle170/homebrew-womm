@@ -9,12 +9,10 @@ class Womm < Formula
   depends_on "rust" => :build
 
   def install
-    system "cargo", "build", "--release", "--locked"
-    # womm looks for its package store next to itself, so they live together in libexec.
-    libexec.install "target/release/womm"
-    system libexec/"womm", "pack-store", buildpath/"packages", buildpath/"packages.tar"
-    libexec.install "packages.tar"
-    bin.install_symlink libexec/"womm"
+    # womm looks for its package store next to itself, so both live in libexec/bin.
+    system "cargo", "install", *std_cargo_args(root: libexec)
+    system libexec/"bin/womm", "pack-store", buildpath/"packages", libexec/"bin/packages.tar"
+    bin.install_symlink libexec/"bin/womm"
   end
 
   def caveats
@@ -23,7 +21,7 @@ class Womm < Formula
       This is the first time that has been true. Please do not tell anyone.
 
       The package store is at:
-        #{opt_libexec}/packages.tar
+        #{opt_libexec}/bin/packages.tar
       There is no command that lists its packages. That is on purpose.
 
       After `brew upgrade womm`, ship your packages again.
